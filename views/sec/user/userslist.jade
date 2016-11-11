@@ -1,5 +1,9 @@
-include ./../../header
-    div(class='container')
+include ./../header
+    script.
+      function deleteUser(id) {
+        $("#formDelete" + id).submit();
+      }
+    div(class='container') 
       table(class='table table-striped table-bordered')
         thead
           tr 
@@ -16,9 +20,9 @@ include ./../../header
               td(class='actions_registrer')
                 a(href='user/#{user.id}', title='Editar')
                   img(src='/img/edit.png')
-                &nbsp;&nbsp;  
-                a(href='user/#{user.id}', title='Excluir')
-                  img(src='/img/delete.png')  
-        footer(class='footer')
-          div(class='container')
-            p(class='text-muted') Place sticky footer content here.
+                &nbsp;&nbsp;
+                a(href='#', onClick='deleteUser(#{user.id})' title='Excluir')
+                    img(src='/img/delete.png')  
+                form(action='/sec/user?_method=DELETE', method='post', id='formDelete#{user.id}')
+                  input(type='hidden', name='id', value="#{user.id}")
+include ./../footer

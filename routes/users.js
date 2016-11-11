@@ -12,6 +12,18 @@ router.get('/new', function (req, res) {
   });
 });
 
+router.get('/:id', function (req, res) {
+  models.User.findById(req.params.id).then(function (user) {
+    res.render(patternUrl + '/usersinput', {
+      user: user,
+      title: 'Edição de usuário',
+      method: '?_method=PUT'
+    });
+  }).catch(function (error) {
+    res.status(500).json(error);
+  });
+});
+
 router.route('/')
   .get(function (req, res) {
     models.User.findAll().then(function (users) {
@@ -47,29 +59,23 @@ router.route('/')
       }).then(function (newUser) {
         res.redirect('/' + patternUrl);
       }).catch(function (error) {
-        res.status(500).json(error);
+        res.render(patternUrl + '/usersinput', {
+          user: req.body,
+          title: 'Edição de usuário',
+          method: '?_method=PUT',
+          errors: error
+        });
       });
-  });
-
-router.route('/:id')
-  .get(function (req, res) {
-    models.User.findById(req.params.id).then(function (user) {
-      res.render(patternUrl + '/usersinput', {
-        user: user,
-        title: 'Edição de usuário',
-        method: '?_method=PUT'
-      });
-    }).catch(function (error) {
-      res.status(500).json(error);
-    });
   })
   .delete(function (req, res) {
     models.User.destroy({
       where: {
-        id: req.params.id
+        id: req.body.id
       }
     }).then(function () {
       res.redirect('/' + patternUrl);
+    }).catch(function (error) {
+      res.status(500).json(error);
     });
   });
 

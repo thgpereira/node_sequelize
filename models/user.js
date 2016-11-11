@@ -2,11 +2,39 @@
 
 module.exports = function (sequelize, DataTypes) {
   var User = sequelize.define('User', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: { type: DataTypes.STRING, allowNull: false },
-    username: { type: DataTypes.STRING, allowNull: false, unique: true },
-    password: { type: DataTypes.STRING, allowNull: false },
-    active: { type: DataTypes.BOOLEAN, allowNull: false, defaultValue: true }
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    username: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      validate: {
+        isUnique: function (username, done) {
+          User.find({
+            where:
+            {
+              username: username
+            }
+          }).done(function (user) {
+            if (user) {
+              done('Usuário já cadastrado');
+            } else {
+              done();
+            }
+          });
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    active: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true
+    }
   });
   return User;
 };

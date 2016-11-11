@@ -1,4 +1,4 @@
-include ./../../header
+include ./../header
     div(class='container')
       form(action='/sec/user#{method}', method='post', class='form-horizontal')
         div(class='form-group')
@@ -7,21 +7,21 @@ include ./../../header
             input(type='text', name='id', value=user.id, class='form-control', readonly)
           div(class='col-sm-5')
             label Nome
-            input(type='text', name='name', value=user.name, class='form-control')
+            input(type='text', name='name', value=user.name, class='form-control', required)
         div(class='form-group')
           div(class='col-sm-3')
             label Usuário
-            input(type='text', name='username', value=user.username, class='form-control')
+            input(type='text', name='username', value=user.username, class='form-control', required)
           div(class='col-sm-2')
             label Senha
             if user.id
               input(type='password', name='password', class='form-control', readonly)
             else
-              input(type='password', name='password', class='form-control')
+              input(type='password', name='password', class='form-control', required)
           div(class='col-sm-1')
             label Ativo
             select(name="active", class='form-control')
-              if user.active
+              if user.active == undifined || user.active
                 option(value='1' selected) Sim
                 option(value='0') Não
               else
@@ -32,4 +32,4 @@ include ./../../header
             a(href='/sec/user', class='btn btn-danger pull-right', role='buttom') Cancelar
           div(class='col-sm-1')
             button(type='submit', class='btn btn-primary pull-right') Salvar
-include ./../../footer
+include ./../footer
