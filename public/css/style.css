@@ -18,6 +18,7 @@ body {
 
 .actions_registrer {
   text-align: center;
+  vertical-align: middle;
   width: 100px;
 }
 
@@ -33,6 +34,29 @@ body {
   width: auto;
   padding: 0px;
 }
+
 .container .text-muted {
   margin: 20px 0;
+}
+
+.panel-table .panel-body{
+  padding:0;
+}
+
+.table {
+  margin: 0;
+}
+
+.panel-table .panel-heading .col h3 {
+  line-height: 30px;
+  height: 30px;
+}
+
+.panel-table .panel-footer .col {
+	line-height: 34px;
+	height: 34px;
+}
+
+.panel-table .panel-footer .pagination {
+	margin: 0;
 }

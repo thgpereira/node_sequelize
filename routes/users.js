@@ -66,6 +66,7 @@ function renderUserList(res, users, error) {
   res.render(patternUrl + '/userslist', {
     users: users,
     title: 'Lista de usuários',
+    add: patternUrl + '/new',
     errors: formatErros(error)
   });
 }
