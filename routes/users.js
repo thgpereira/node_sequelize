@@ -5,34 +5,23 @@ var models = require('../models');
 var patternUrl = 'sec/user';
 
 router.get('/new', function (req, res) {
-  res.render(patternUrl + '/usersinput', {
-    user: {},
-    title: 'Cadastro de usuário',
-    method: ''
-  });
+  renderUserInput(res, {});
 });
 
 router.get('/:id', function (req, res) {
   models.User.findById(req.params.id).then(function (user) {
-    res.render(patternUrl + '/usersinput', {
-      user: user,
-      title: 'Edição de usuário',
-      method: '?_method=PUT'
-    });
+    renderUserInput(res, user);
   }).catch(function (error) {
-    res.status(500).json(error);
+    renderUserList(res, users, error);
   });
 });
 
 router.route('/')
   .get(function (req, res) {
     models.User.findAll().then(function (users) {
-      res.render(patternUrl + '/userslist', {
-        users: users,
-        title: 'Lista de usuários'
-      });
+      renderUserList(res, users);
     }).catch(function (error) {
-      res.status(500).json(error);
+      renderUserList(res, users, error);
     });
   })
   .post(function (req, res) {
@@ -44,13 +33,12 @@ router.route('/')
     }).then(function (newUser) {
       res.redirect('/' + patternUrl);
     }).catch(function (error) {
-      res.status(500).json(error);
+      renderUserInput(res, req.body, error);
     });
   })
   .put(function (req, res) {
     models.User.update({
       name: req.body.name,
-      username: req.body.username,
       active: req.body.active
     }, {
         where: {
@@ -59,12 +47,7 @@ router.route('/')
       }).then(function (newUser) {
         res.redirect('/' + patternUrl);
       }).catch(function (error) {
-        res.render(patternUrl + '/usersinput', {
-          user: req.body,
-          title: 'Edição de usuário',
-          method: '?_method=PUT',
-          errors: error
-        });
+        renderUserInput(res, req.body, error);
       });
   })
   .delete(function (req, res) {
@@ -75,8 +58,31 @@ router.route('/')
     }).then(function () {
       res.redirect('/' + patternUrl);
     }).catch(function (error) {
-      res.status(500).json(error);
+      renderUserList(res, users, error);
     });
   });
+
+function renderUserList(res, users, error) {
+  res.render(patternUrl + '/userslist', {
+    users: users,
+    title: 'Lista de usuários',
+    errors: formatErros(error)
+  });
+}
+
+function renderUserInput(res, user, error) {
+  res.render(patternUrl + '/usersinput', {
+    user: user,
+    title: (user.id ? 'Edição de usuário' : 'Cadastro de usuário'),
+    method: (user.id ? '?_method=PUT' : ''),
+    errors: formatErros(error)
+  });
+}
+
+function formatErros(error) {
+  if (error) {
+    return error.errors;
+  }
+}
 
 module.exports = router;

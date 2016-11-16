@@ -1,9 +1,10 @@
 include ./../header
     div(class='container')
+      include ./../errors
       form(action='/sec/user#{method}', method='post', class='form-horizontal')
         div(class='form-group')
           div(class='col-sm-1')
-            label Id
+            label Id 
             input(type='text', name='id', value=user.id, class='form-control', readonly)
           div(class='col-sm-5')
             label Nome
@@ -11,7 +12,10 @@ include ./../header
         div(class='form-group')
           div(class='col-sm-3')
             label Usuário
-            input(type='text', name='username', value=user.username, class='form-control', required)
+            if user.id
+              input(type='text', name='username', value=user.username, class='form-control', readonly)
+            else
+              input(type='text', name='username', value=user.username, class='form-control', required)
           div(class='col-sm-2')
             label Senha
             if user.id
@@ -31,5 +35,5 @@ include ./../header
           div(class='col-sm-5')
             a(href='/sec/user', class='btn btn-danger pull-right', role='buttom') Cancelar
           div(class='col-sm-1')
-            button(type='submit', class='btn btn-primary pull-right') Salvar
+            button(type='submit', class='btn btn-success pull-right') Salvar
 include ./../footer

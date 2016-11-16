@@ -1,0 +1,21 @@
+script.
+  function deleteRegistrer(id) {
+    bootbox.confirm({
+      message: "Deseja realmente excluir o registro?",
+      buttons: {
+        confirm: {
+          label: 'Sim',
+          className: 'btn-success'
+        },
+        cancel: {
+          label: 'Não',
+          className: 'btn-danger'
+        }
+      },
+      callback: function (result) {
+        if(result) {
+          $("#formDelete" + id).submit();
+        }
+      }
+    });
+  }

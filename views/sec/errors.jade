@@ -1,0 +1,4 @@
+if errors
+  div(class='alert alert-danger' role='alert')
+    for err in errors
+      * #{err.message}
