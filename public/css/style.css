@@ -8,18 +8,18 @@ body {
 }
 
 .id {
-  width: 80px;
+  width: 75px;
 }
 
 .active_registrer {
   text-align: center;
-  width: 70px;
+  width: 65px;
 }
 
 .actions_registrer {
   text-align: center;
   vertical-align: middle;
-  width: 100px;
+  width: 85px;
 }
 
 .footer {
@@ -59,4 +59,8 @@ body {
 
 .panel-table .panel-footer .pagination {
 	margin: 0;
+}
+
+.btn-space {
+  margin-right: 10px;
 }

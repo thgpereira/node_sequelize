@@ -4,7 +4,7 @@ include ./../header
       form(action='/sec/user#{method}', method='post', class='form-horizontal')
         div(class='form-group')
           div(class='col-sm-1')
-            label Id 
+            label Id
             input(type='text', name='id', value=user.id, class='form-control', readonly)
           div(class='col-sm-5')
             label Nome
@@ -32,7 +32,6 @@ include ./../header
                 option(value='1') Sim
                 option(value='0' selected) Não
         div(class='form-group')
-          div(class='col-sm-5')
-            a(href='/sec/user', class='btn btn-danger pull-right', role='buttom') Cancelar
-          div(class='col-sm-1')
+          div(class='col-sm-6')
             button(type='submit', class='btn btn-success pull-right') Salvar
+            a(href='/sec/user', class='btn btn-danger btn-space pull-right', role='buttom') Cancelar
