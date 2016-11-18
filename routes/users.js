@@ -3,12 +3,13 @@ var router = express.Router();
 var userutils = require('../utils/userutils');
 var models = require('../models');
 var patternUrl = 'sec/user';
+var limitList = 3;
 
 router.get('/new', function (req, res) {
   renderUserInput(res, {});
 });
 
-router.get('/:id', function (req, res) {
+router.get('/edit/:id', function (req, res) {
   models.User.findById(req.params.id).then(function (user) {
     renderUserInput(res, user);
   }).catch(function (error) {
@@ -16,13 +17,13 @@ router.get('/:id', function (req, res) {
   });
 });
 
+router.get('/:page', function (req, res) {
+  listUsers(req, res);
+});
+
 router.route('/')
   .get(function (req, res) {
-    models.User.findAll().then(function (users) {
-      renderUserList(res, users);
-    }).catch(function (error) {
-      renderUserList(res, users, error);
-    });
+    listUsers(req, res);
   })
   .post(function (req, res) {
     models.User.create({
@@ -61,6 +62,22 @@ router.route('/')
       renderUserList(res, users, error);
     });
   });
+
+function listUsers(req, res) {
+  models.User.findAndCountAll({
+    limit: limitList,
+    offset: getOffset(req)
+  }).then(function (users) {
+    renderUserList(res, users);
+  }).catch(function (error) {
+    renderUserList(res, users, error);
+  });
+}
+
+function getOffset(req) {
+  var offset = req.params.page ? parseInt(req.params.page) - 1 : 0
+  return offset * limitList;
+}
 
 function renderUserList(res, users, error) {
   res.render(patternUrl + '/userslist', {

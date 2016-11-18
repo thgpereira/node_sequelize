@@ -13,17 +13,17 @@ include ./../header
                 th(class='active_registrer') Ativo
                 th(class='actions_registrer') Ações
             tbody
-              for user in users
+              for user in users.rows
                 tr
-                  td #{user.id}
-                  td #{user.name}
-                  td(class='active_registrer') #{user.active ? 'Sim' : 'Não'}
+                  td #{user.dataValues.id}
+                  td #{user.dataValues.name}
+                  td(class='active_registrer') #{user.dataValues.active ? 'Sim' : 'Não'}
                   td(class='actions_registrer')
-                    a(href='user/#{user.id}', title='Editar')
+                    a(href='user/edit/#{user.dataValues.id}', title='Editar')
                       img(src='/img/edit.png')
                     &nbsp;&nbsp;
-                    a(href='#', onClick='deleteRegistrer(#{user.id})' title='Excluir')
+                    a(href='#', onClick='deleteRegistrer(#{user.dataValues.id})' title='Excluir')
                         img(src='/img/delete.png')  
-                    form(action='/sec/user?_method=DELETE', method='post', id='formDelete#{user.id}', class="hidden")
-                      input(type='hidden', name='id', value="#{user.id}")
+                    form(action='/sec/user?_method=DELETE', method='post', id='formDelete#{user.dataValues.id}', class="hidden")
+                      input(type='hidden', name='id', value="#{user.dataValues.id}")
         include ./../footertable
